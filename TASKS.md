@@ -22,3 +22,8 @@ change ledger; release evidence is also recorded in `CHANGELOG.md` and
   redacted committed fixture and regression test.
 
 ## Checklist change ledger
+
+- 2026-10-08 pre-commit source-sync review: workflow policy only, no importer,
+  profile, guide, Show-ID or server changes. Existing migration/commissioning
+  tasks remain unchecked; completed entries ledger-only. Common workflow and
+  source-layout checks apply; workspace execution order reviewed305.
