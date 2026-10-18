@@ -1,5 +1,36 @@
 # Handoff
 
+## XMLTV Standard-plugin conversion complete (2026-10-18)
+
+GitHub/local root renamed to opensagetv-vibe-xmltv-Plugin; origin points at the
+new name, history retained.3.6.0 packages a real Standard wrapper with guarded
+public stock-property registration, Config screen and explicit managed-provider
+Save/Reload. Legacy xmltv.XMLTVImportPlugin and XMLTVImportPlugin.jar remain
+unchanged names; profiles/IDs/third-party importers are preserved. Missing
+profiles/examples seed from credential-free JAR resources; examples are not
+active providers. See README migration/disable/uninstall semantics.
+
+Default compilation explicitly uses JDK11/Java8 against unmodified stock
+Sage.jar d76ded98, not the Vibe Core artifact. Final JAR SHA256
+fb01c879efec0d05f9945bebb8a8c0d79a7a72c44a04b71f50acfa5c54ce6df7;
+installableZIP43bc63b3207f1b63e062f47b947c30af438dff47a6f6dadafa07ac0cd277f8f0.
+Full existing importer suite,30new lifecycle checks,7host contracts and
+actual isolated stock plugin-manager install/settings/provider/restart/
+disable/re-enable/conflict/uninstall pass. Retain meaningful compact results
+and package, retire corrected raw. Native runtime comes from local Linux build;
+this is not a Windows/physical-STV/private-corpus replay or a changed175/232.
+
+Two integration assertions were corrected from observed stock behavior:
+plugin identifiers are lowercase; initial Core EPG setup may create an empty
+property before this plugin owns it. No production behavior was changed to
+conceal those harness failures. Before public binary/catalog release finish
+XMLTV-PLUGIN-004 and request explicit approval (PUBLISH_APPROVED=false).
+Build-env/container references follow the rename; internal mount unchanged.
+Legacy Vibe Core auto-discovery/container upsert are not removed by this
+conversion. Their separately qualified migration/retirement is005; the new
+Standard wrapper does not depend on them and preserves legacy ownership.
+Earlier3.5/container-owned registration descriptions below are historical.
+
 ## Standard takeover
 
 Read `AGENTS.md`, `README.md`, `TASKS.md`, and `WORKFLOW.md`, then use the common

@@ -1,4 +1,4 @@
-# OpenSageTV Vibe XMLTV Import contributor rules
+# OpenSageTV Vibe XMLTV Plugin contributor rules
 
 ## Task fix and server-boundary policy
 

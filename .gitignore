@@ -1,4 +1,6 @@
 /output/
+/.deps/
+__pycache__/
 /artifacts/*
 !/artifacts/downloads/
 /artifacts/downloads/*

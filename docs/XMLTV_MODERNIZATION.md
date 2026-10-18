@@ -1,5 +1,29 @@
 # XMLTV Importer Modernization
 
+## Version3.6 Standard-plugin boundary
+
+`xmltv.XMLTVStandardPlugin` implements the stock `sage.SageTVPlugin` interface;
+the existing `xmltv.XMLTVImportPlugin` still implements guide discovery/import.
+`ImporterRegistration` uses only Get/Set/RemoveServerProperty through the
+supported SageTV API. It registers an empty importer only, never guesses that
+a nonempty third-party class is obsolete, journals previous-value ownership,
+and restores only an unchanged registration it owns. Existing XMLTV settings
+remain administrator-owned; no multi-importer capability is claimed.
+
+The Configure screen stages new provider fields and requires an explicit Save
+before creating `vibe-plugin.xmltv.properties`. Existing provider files, unknown
+managed-file keys, legacy/v2 IDs and database state are preserved. Invalid IDs,
+duplicate provider IDs, stale external edits and unowned files are rejected.
+Reload acknowledges external edits without an import or lineup selection.
+Profiles seed only missing files; example providers remain outside discovery.
+
+An installable SageTV Standard-plugin descriptor/package replaces the old
+manual-only distribution. JAR/classes/resources and ZIP timestamps are pinned,
+class major52 is checked, and package validation rejects foreign Sage classes,
+unsafe paths, duplicate entries and non-resource/private content. Stock-JAR
+lifecycle tests are separate from the parser/guide-mapping tests and the real
+stock plugin-manager integration. There is no Core auto-discovery dependency.
+
 ## Scope
 
 Version 3.4 modernizes the importer without changing the default legacy Show-ID

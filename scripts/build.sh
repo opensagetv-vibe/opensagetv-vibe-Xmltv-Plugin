@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-sage_jar="${SAGE_JAR:-/work/sagetv/output/server/Sage.jar}"
+# Select the established server compiler explicitly; Android and a newer image
+# default must not silently change this Java8 plugin's bytecode/toolchain.
+export JAVA_HOME="${XMLTV_JAVA_HOME:-/usr/lib/jvm/java-11-openjdk-amd64}"
+test -x "$JAVA_HOME/bin/javac" || { echo 'ERROR: JDK11 is required by the XMLTV build' >&2; exit 1; }
+export PATH="$JAVA_HOME/bin:$PATH"
+sage_jar="${SAGETV_JAR:-${SAGE_JAR:-/workspace/ffmpeg-plugin/.deps/stock/Sage.jar}}"
 src="$root/SAGETV_SERVER_ROOT_Contents/xmltv_src"
 out="$root/output"
 test -f "$sage_jar" || { echo "ERROR: Sage.jar not found: $sage_jar" >&2; exit 1; }
-rm -rf "$out"
+# Only disposable compiler classes are replaced. Keep canonical versioned
+# packages and prior compact results; never clear the entire output tree.
+for generated in "$out" "$out/classes" "$out/test-classes"; do
+  test ! -L "$generated" || { echo 'ERROR: redirected build output' >&2; exit 1; }
+done
+rm -rf "$out/classes" "$out/test-classes"
 mkdir -p "$out/classes" "$out/test-classes" "$out/packages" "$out/test-results" "$out/config-examples"
 javac -encoding UTF-8 -Xlint:deprecation -Xlint:unchecked --release 8 \
   -classpath "$sage_jar" -d "$out/classes" \
   "$src/Channel.java" "$src/Show.java" "$src/Init.java" \
+  "$src/ImporterRegistration.java" "$src/XMLTVStandardPlugin.java" \
   "$src/ImportResult.java" "$src/XmltvConfiguration.java" \
   "$src/ConfigurationProfiles.java" \
   "$src/FeedDownloader.java" "$src/SecureXmlReader.java" \
@@ -33,6 +44,14 @@ javac -encoding UTF-8 --release 8 -classpath "$out/classes:$sage_jar" \
   "$root/tests/xmltv/ProfileRuntimeProbe.java" \
   "$root/tests/org/opensagetv/vibe/tmdb/plugin/OpenSageTVVibeTmdbFacade.java" \
   "$root/tests/xmltv/TmdbEnricherTest.java"
+python3 "$root/scripts/package.py" resources
+javac -encoding UTF-8 --release 8 -classpath "$out/classes:$sage_jar" \
+  -d "$out/test-classes" "$root/tests/xmltv/StandardPluginTest.java" \
+  "$root/tests/xmltv/StockPluginManagerProbe.java"
+plugin_work="$(mktemp -d)"
+(cd "$plugin_work"; java -classpath "$out/test-classes:$out/classes:$sage_jar" xmltv.StandardPluginTest) \
+  | tee "$out/test-results/standard-plugin.log"
+rm -rf "$plugin_work"
 java -classpath "$out/test-classes:$out/classes:$sage_jar" xmltv.XMLInputStreamFilterTest \
   | tee "$out/test-results/tests.log"
 provider_work="$(mktemp -d)"
@@ -240,9 +259,10 @@ printf 'provider.name=Identity Test\nprovider.id=999\nxmltv.files=%s\nxmltv.show
   | tee "$out/test-results/identity-v2-bonus.log"
 grep -q 'shows=2 uniqueShowIds=2 conflictingShowIds=0 airings=2 showIdDescriptions=0 showIdBonus=2' "$out/test-results/identity-v2-bonus.log"
 rm -rf "$bonus_work"
-jar --create --file "$out/packages/XMLTVImportPlugin.jar" -C "$out/classes" xmltv
+python3 "$root/scripts/package.py" package
 cp "$root"/SAGETV_SERVER_ROOT_Contents/*.properties "$out/config-examples/"
 cp "$root"/SAGETV_SERVER_ROOT_Contents/*.profile "$out/config-examples/"
 jar --list --file "$out/packages/XMLTVImportPlugin.jar" | grep -q 'xmltv/XMLTVImportPlugin.class'
 jar --list --file "$out/packages/XMLTVImportPlugin.jar" | grep -q 'xmltv/ShowIdGenerator.class'
 echo "[PASS] XMLTVImportPlugin build"
+python3 -m unittest discover -s "$root/tests" -p 'test_*.py'

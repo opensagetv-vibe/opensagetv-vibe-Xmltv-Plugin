@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SageTVPlugin>
+  <Name>OpenSageTV Vibe XMLTV</Name>
+  <Identifier>OpenSageTVVibeXMLTVPlugin</Identifier>
+  <Author>OpenSageTV Vibe</Author>
+  <CreationDate>2026.10.18</CreationDate>
+  <ModificationDate>@DATE@</ModificationDate>
+  <Version beta="true">@VERSION@</Version>
+  <OS>Linux</OS><OS>Win</OS><OS>Mac</OS>
+  <Desktop>false</Desktop><ServerOnly>true</ServerOnly>
+  <Description>Stock-server XMLTV EPG importer with guarded registration, STV configuration, legacy profiles, stable Show IDs and optional TMDB enrichment.</Description>
+  <PluginType>Standard</PluginType>
+  <ImplementationClass>xmltv.XMLTVStandardPlugin</ImplementationClass>
+  <Package>
+    <PackageType>JAR</PackageType>
+    <Location>https://github.com/opensagetv-vibe/opensagetv-vibe-xmltv-Plugin/releases/download/v@VERSION@/OpenSageTVVibeXMLTVPlugin-jar-@VERSION@.zip</Location>
+    <MD5>@MD5@</MD5>
+  </Package>
+  <Dependency><core/><MinVersion>9.2.2</MinVersion></Dependency>
+  <Webpage>https://github.com/opensagetv-vibe/opensagetv-vibe-xmltv-Plugin</Webpage>
+  <ReleaseNotes>See CHANGELOG.md and the migration notes in README.md.</ReleaseNotes>
+</SageTVPlugin>

@@ -1,8 +1,12 @@
-# OpenSageTV Vibe XMLTV Import Plugin
+# OpenSageTV Vibe XMLTV Plugin
 
-This Apache-2.0 project builds reproducibly against SageTV Core using the common
-Ubuntu 26/OpenJDK 11 development image. It does not compile inside or delete
-data from a running SageTV server.
+Repository: https://github.com/opensagetv-vibe/opensagetv-vibe-xmltv-Plugin
+
+Version3.6.0 adds a real SageTV **Standard plugin** around the existing XMLTV
+EPG importer. It builds against an **unmodified stock Sage.jar**, targets Java8
+bytecode, and uses only public SageTV property APIs. Linux/Windows packages use
+the same JAR; no Core modification, Android client, FFmpeg or MCP plugin is
+required. This conversion is not a public release/catalog submission yet.
 
 Run `./opensagetv-vibe-dev.sh xmltv` from the sibling
 `opensagetv-vibe-build-env`
@@ -17,27 +21,70 @@ feed, rejected SageTV database call, failed required `run.before` command, or
 incomplete configuration makes `updateGuide()` return `false`. The existing
 lineup is not replaced after a failed import.
 
-Installation registers `xmltv.XMLTVImportPlugin` so XMLTV appears as an EPG
+Installation can register `xmltv.XMLTVImportPlugin` so XMLTV appears as an EPG
 option without any legacy SageTV license key. No lineup is selected and no
 guide import occurs until the user chooses a provider. If configuration is
 missing, a safe `XMLTV Lineup` placeholder remains selectable while examples
 are available under `.config/xmltv-examples`.
 
-## How to install Plugin with SageTV 
-1.  Stop SageTV Server
-2.  Rename on add/modify/ xmltv_EXAMPLE.properties examples
-3.  Copy all files and folder contents(not folder) of folder SAGETV_SERVER_ROOT to SageTV folder.  Only Jar and *.properties are required if not compiling required
-4.  Add the following line in Sage.properties epg/epg_import_plugin=xmltv.XMLTVImportPlugin
-5.  Start SageTV Server
-6.  Monitor in server folder xmltv.log, sagetv_0.txt,Sage.properties.  If epg/epg_import_plugin=xmltv.XMLTVImportPlugin is removed from Sage.properties something is installed not correctly
-7.  In SageTV guide setup select the XMLTV provider. No SageTV license or trial key is required.
+## Installation and setup
+
+The plugin-manager identity is `OpenSageTVVibeXMLTVPlugin`, with implementation
+`xmltv.XMLTVStandardPlugin`, requiring SageTV9.2.2+. The existing importer class
+and `XMLTVImportPlugin.jar` filename stay unchanged to prevent duplicate class
+copies during an upgrade from manual/container installation.
+
+1. Build using `dev.cmd all` or `./dev.sh all`. Installable ZIP, public/development
+   descriptors, JAR and SHA256SUMS are in `output/packages/`.
+2. For development commissioning, use SageTV's existing development-plugin
+   mechanism: place the generated ZIP and `*-dev.xml` under the server's
+   `SageTVPluginsDev.d` with developer mode enabled, then refresh the plugin
+   list and install **OpenSageTV Vibe XMLTV** through Available Plugins.
+   A loaded-JAR update may require an idle restart. Do not modify live properties
+   files or install a second copy of the importer under another filename.
+3. Open Installed Plugins > OpenSageTV Vibe XMLTV > Configure. Registration is
+   enabled by default **only when no importer is configured**. An existing XMLTV
+   registration is preserved; any different importer is left untouched and
+   reported as a conflict. No classname is guessed to be obsolete.
+4. Existing `xmltv.properties`, `*.xmltv.properties`, profiles and Show-ID maps
+   remain authoritative. For a new provider, enter its name, a unique ID1-998,
+   local/HTTP(S) source and profile, then choose **Save provider settings**.
+   This explicitly creates only `vibe-plugin.xmltv.properties`; enabling the
+   plugin never creates an active feed, selects a lineup or starts an import.
+5. Select the provider through SageTV's normal guide setup. No license key is
+   needed. Monitor `xmltv.log` and SageTV's server log for import results.
+
+Read-only status does not open a keyboard. Profile/logos/optional TMDB controls
+are available in Configure. **Reload managed provider** discards unsaved fields
+and acknowledges external edits; stale edits otherwise cannot overwrite that
+file. Source details are not logged by the wrapper.
+
+## Disable, uninstall and migration
+
+- Back up the existing importer JAR, provider/profile files, `Sage.properties`,
+  `Wiz.bin`, and Show-ID map before migrating an established lineup. Never
+  switch its provider ID or legacy/v2 ID strategy automatically.
+- Disable, Stop, Reset and uninstall restore a registration **only if this
+  plugin created it and the administrator has not subsequently changed it**.
+  Absent and explicitly empty properties are restored distinctly. Persisted
+  ownership survives a server/plugin restart.
+- A pre-existing administrator/container-owned XMLTV registration stays intact;
+  disabling this wrapper does not disable that legacy importer. If uninstalling
+  its only JAR, deliberately restore a legacy JAR or remove that registration
+  as part of the administrator's migration before restarting. No guide/lineup,
+  favourites, provider files, profiles, caches or ID mappings are deleted.
+- Missing profiles/common defaults are seeded without overwriting user files.
+  Example configurations stay under `.config/xmltv-examples`, outside automatic
+  provider discovery; feeds/credentials are never packaged.
+- A future catalog release is a separate approval step. Validation and remaining
+  physical-platform limits are in `HANDOFF.md`/`TASKS.md`.
 
 ## Supported Unraid container installation
 
-The `opensagetv-vibe-container` release embeds the tested JAR, copies it into
+Existing `opensagetv-vibe-container` releases embed the tested JAR, copy it into
 `server/JARs`, and safely upserts the plugin property at startup. Do not edit
 `Sage.properties` with the obsolete `sed`/`sudo` commands from the historical
-project. The CA template's `XMLTV EPG Provider` value must remain
+project. The legacy CA template's `XMLTV EPG Provider` value remains
 `xmltv.XMLTVImportPlugin`, and XML source paths under `/mnt/user` are visible in
 the container below `/unraid`.
 

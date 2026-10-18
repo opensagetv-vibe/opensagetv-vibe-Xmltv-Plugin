@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### 3.6.0 Standard-plugin conversion
+
+- Rename project/repository to opensagetv-vibe-xmltv-Plugin, retaining Git
+  history and the established XMLTV importer class/JAR filename.
+- Add a stock-Sage.jar Standard plugin, public-API-only guarded registration,
+  persisted ownership/restore, safe disable/reset/uninstall and STV Configure.
+  Never overwrite another importer or silently select/import a lineup.
+- Add explicit managed-provider Save/Reload, profile/logo/optional TMDB controls,
+  validation/collision/external-edit protections and missing-only resources.
+  Preserve all legacy configs/profiles/IDs and user guide/database state.
+- Produce deterministic Java8 JAR/ZIP, SageTV descriptors, checksums and source
+  integrity/CI contracts. Compile on explicitly selected JDK11 against stock.
+- Pass existing importer suite,30new boundary assertions,7host contracts and
+  real isolated stock-server plugin-manager install/restart/fallback/uninstall.
+  Public binary/catalog and Windows/physical-STV qualification remain separate.
+
 - Updated repository CI to the current Node 24-based
   `actions/checkout@v7` release. The private-fixture scan excludes its own
   workflow source so the forbidden-pattern expression cannot self-match.

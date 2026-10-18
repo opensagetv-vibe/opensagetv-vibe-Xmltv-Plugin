@@ -184,7 +184,7 @@ public final class XMLTVImportPlugin implements sage.EPGImportPlugin,
         ContentHandler, ErrorHandler {
 
     //The newline sequence.
-    private static final String ProgramVersion = "3.5";
+    private static final String ProgramVersion = "3.6";
 	//The newline sequence.
     private static final String NEWLINE = System.getProperty("line.separator");
 	//The date format used for logging. 
