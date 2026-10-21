@@ -1,5 +1,14 @@
 # Handoff
 
+## Canonical repository casing (2026-10-21)
+
+PLUGIN-RENAME-001 uses opensagetv-vibe-Xmltv-Plugin on GitHub and disk.
+Metadata, future release URLs and package tests follow that name; installed
+plugin/importer IDs, JAR, profiles and settings remain unchanged. Seven host
+contracts and metadata validation pass; regenerate/check the source manifest
+before commit. Existing physical-release gates and publication approval remain
+open. A repository rename does not authorize a binary/catalog release.
+
 ## XMLTV Standard-plugin conversion complete (2026-10-18)
 
 GitHub/local root renamed to opensagetv-vibe-xmltv-Plugin; origin points at the

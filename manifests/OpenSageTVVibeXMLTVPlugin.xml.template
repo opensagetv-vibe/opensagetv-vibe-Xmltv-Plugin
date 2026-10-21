@@ -13,10 +13,10 @@
   <ImplementationClass>xmltv.XMLTVStandardPlugin</ImplementationClass>
   <Package>
     <PackageType>JAR</PackageType>
-    <Location>https://github.com/opensagetv-vibe/opensagetv-vibe-xmltv-Plugin/releases/download/v@VERSION@/OpenSageTVVibeXMLTVPlugin-jar-@VERSION@.zip</Location>
+    <Location>https://github.com/opensagetv-vibe/opensagetv-vibe-Xmltv-Plugin/releases/download/v@VERSION@/OpenSageTVVibeXMLTVPlugin-jar-@VERSION@.zip</Location>
     <MD5>@MD5@</MD5>
   </Package>
   <Dependency><core/><MinVersion>9.2.2</MinVersion></Dependency>
-  <Webpage>https://github.com/opensagetv-vibe/opensagetv-vibe-xmltv-Plugin</Webpage>
+  <Webpage>https://github.com/opensagetv-vibe/opensagetv-vibe-Xmltv-Plugin</Webpage>
   <ReleaseNotes>See CHANGELOG.md and the migration notes in README.md.</ReleaseNotes>
 </SageTVPlugin>

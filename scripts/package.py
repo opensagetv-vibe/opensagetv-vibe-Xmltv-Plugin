@@ -26,7 +26,7 @@ def metadata(root=ROOT, require_approved=False):
     if not re.fullmatch(r'\d+\.\d+\.\d+', result['VERSION']) or (root/'VERSION').read_text().strip() != result['VERSION']:
         raise ValueError('VERSION mismatch')
     datetime.datetime.strptime(result['RELEASE_DATE'], '%Y.%m.%d')
-    if result['PACKAGE_ID'] != 'opensagetv-vibe-xmltv-Plugin': raise ValueError('Wrong project identity')
+    if result['PACKAGE_ID'] != 'opensagetv-vibe-Xmltv-Plugin': raise ValueError('Wrong project identity')
     if require_approved and result.get('PUBLISH_APPROVED') != 'true': raise ValueError('Explicit publication approval required')
     return result
 

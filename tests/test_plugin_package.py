@@ -22,7 +22,7 @@ class PluginPackageTests(unittest.TestCase):
 
     def test_metadata_and_rename(self):
         values=package.metadata()
-        self.assertEqual(values['PACKAGE_ID'],'opensagetv-vibe-xmltv-Plugin')
+        self.assertEqual(values['PACKAGE_ID'],'opensagetv-vibe-Xmltv-Plugin')
         self.assertIn(values['PUBLISH_APPROVED'],['false','true'])
         self.assertIn('xmltv.XMLTVStandardPlugin',(ROOT/'manifests/OpenSageTVVibeXMLTVPlugin.xml.template').read_text())
 

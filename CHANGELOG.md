@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Use canonical opensagetv-vibe-Xmltv-Plugin repository casing in metadata and
+  future package links; preserve installed/importer identities and settings.
+  Seven host contracts pass; no binary publication or physical qualification.
+
 ### 3.6.0 Standard-plugin conversion
 
 - Rename project/repository to opensagetv-vibe-xmltv-Plugin, retaining Git

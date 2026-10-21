@@ -1,6 +1,6 @@
 # OpenSageTV Vibe XMLTV Plugin
 
-Repository: https://github.com/opensagetv-vibe/opensagetv-vibe-xmltv-Plugin
+Repository: https://github.com/opensagetv-vibe/opensagetv-vibe-Xmltv-Plugin
 
 Version3.6.0 adds a real SageTV **Standard plugin** around the existing XMLTV
 EPG importer. It builds against an **unmodified stock Sage.jar**, targets Java8

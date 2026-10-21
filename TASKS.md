@@ -9,6 +9,7 @@ This is the only active XMLTV backlog. Completed work moves to the checklist
 change ledger; release evidence is also recorded in `CHANGELOG.md` and
 `HANDOFF.md`.
 
+
 - [ ] **XMLTV-PLUGIN-004 - Physical release qualification.** Before a binary
   release/catalog submission, qualify the Windows installer/filesystem and the
   actual stock/SageMC STV Configure presentation with generated data, then
@@ -28,6 +29,12 @@ change ledger; release evidence is also recorded in `CHANGELOG.md` and
   redacted committed fixture and regression test.
 
 ## Checklist change ledger
+
+- [x] **PLUGIN-RENAME-001 (2026-10-21):** Canonical Xmltv-Plugin casing on
+  GitHub/disk, package/manifest URLs and source metadata; installed/importer
+  IDs/JAR/profiles unchanged. Seven host contracts, metadata and regenerated
+  source-manifest checks pass. Source push uses exact-HEAD CI; physical release
+  qualification/approval and legacy-policy retirement remain separate open work.
 
 - [x] **XMLTV-PLUGIN-001 - Standard plugin lifecycle and settings (2026-10-18).**
   Implemented stock SageTVPlugin wrapper, public Get/Set/RemoveServerProperty,
